@@ -24,8 +24,10 @@ class FileSystem(ABC):
         """
         if path_list[0] != self.ROOT_PATH:
             path_list.insert(0, self.ROOT_PATH)
-        self._path_list = path_list
-        self._name = self._path_list[-1]
+        self.__path_list = path_list
+        self.__abs_path = self.__get_abs_path(self.path)
+        self.__abs_dir = self.__get_abs_path(os.path.join(*self.__path_list[:-1]))
+        self.__name = self.__path_list[-1]
 
     def __repr__(self):
         return self.name
@@ -44,18 +46,20 @@ class FileSystem(ABC):
         """
 
     def get_name(self):
-        return self._name
+        return self.__name
 
-    def set_name(self, name):
-        pass
+    def set_name(self, name=None, pathList=None):
+        if pathList:
+            path = self.__get_abs_path(os.path.join(*pathList))
+            os.rename(self.__abs_path, path)
+        elif name:
+            os.rename(self.__abs_path, self.__get_abs_path(os.path.join(self.__abs_dir, name)))
 
     def get_size(self):
-        abs_path = self.__get_abs_path(self.path)
-        print(abs_path)
-        return self.__get_dir_size(abs_path)
+        return self.__get_dir_size(self.__abs_path)
 
     def get_path(self):
-        return os.path.join(*self._path_list)
+        return os.path.join(*self.__path_list)
 
     def set_path(self, path_list):
         pass
