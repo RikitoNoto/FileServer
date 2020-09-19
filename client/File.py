@@ -1,8 +1,10 @@
 import os
-from FileSystem import FileSystem
+from Button import Button
 
-class File(FileSystem):
-    pass
+class File(Button):
+
+    def click(self):
+        self.master.file_clicked()
 
 if __name__ == "__main__":
     file = File(["_", "test"])

@@ -1,8 +1,6 @@
 import os
-from abc import ABC
-from abc import abstractmethod
 
-class FileSystem(ABC):
+class FileSystem:
     SERVER_DIRECTORY_PATH = "/Users/ta4/python/FileServer"
     ROOT_PATH = "_"
     """
@@ -26,7 +24,8 @@ class FileSystem(ABC):
             path_list.insert(0, self.ROOT_PATH)
         self.__path_list = path_list
         self.__abs_path = self.__get_abs_path(self.path)
-        self.__abs_dir = self.__get_abs_path(os.path.join(*self.__path_list[:-1]))
+        self.__abs_dir = self.__get_abs_path(os.path.join(*self.__path_list[:-1], ""))
+        #if in path list is only root path, an error will occur when "" is noting.
         self.__name = self.__path_list[-1]
 
     def __repr__(self):
