@@ -1,16 +1,20 @@
-import os
 
-from client.File import File
-from client.Directory import Directory
-from .FileSystem import FileSystem
+from ServerFile import ServerFile
+from ServerDirectory import ServerDirectory
+
+import os
+import sys
+sys.path.append(os.path.abspath(".."))
+
+from common.FileSystem import FileSystem
 
 class FileFactory:
     @staticmethod
     def file_factory(pathList):
         abs_path = os.path.join(FileSystem.SERVER_DIRECTORY_PATH, *pathList)
         if os.path.isfile(abs_path):
-            return File(pathList)
+            return ServerFile(pathList)
         elif os.path.isdir(abs_path):
-            return Directory(pathList)
+            return ServerDirectory(pathList)
         elif os.path.islink(abs_path):
             return None
