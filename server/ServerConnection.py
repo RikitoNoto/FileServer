@@ -32,20 +32,21 @@ class ServerConnection(ServerAction):
                 while True:
                     message = connection.recv(1024)
                     if not message:
-                        print("error no message")
+                        print("No message, so disconnect.")
                         break
 
                     command, data = self.__decode_message(message)
 
-                    print("メッセージを受信　ポート：{}, アドレス：{}".format(port, address))
-                    connection.send(b"send meaage")
-                    open()
+                    response = self.do_action(command, data)
+                    print("メッセージを受信　コマンド：{}, データ：{}".format(command, data))
+                    connection.send(response.encode())
 
     def __decode_message(self, message):
+        message = message.decode()
         regrep = re.compile("(.*){}(.*)".format(PACKET.COMMAND_SEP))
         match = regrep.match(message)
         command = match.group(1)
-        data = match.group(3)
+        data = match.group(2)
         return command, data
 
 if __name__ == "__main__":

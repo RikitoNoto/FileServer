@@ -12,13 +12,12 @@ class ServerAction:
 
     def do_action(self, command, data):
         action = eval("self.{}".format(self.COMMAND_METHOD[command]))
-        action(data)
+        return action(data)
 
     def get_directory(self, data):
         path_list = self.__create_path_list(data)
         directory = FileFactory.file_factory(path_list)
-        directory.get_children(path_list)
-
+        return directory.get_children()
 
     def get_file(self, data):
         print(data)

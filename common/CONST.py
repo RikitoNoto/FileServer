@@ -1,10 +1,11 @@
 class COMMAND:
-    GET_DIR = 1
+    GET_DIR = "getDirectory"
 
 
 class PACKET:
     PATH_SEP = "/"
     COMMAND_SEP = " "
+    DIRECTORY_SEP = " "
 
 class CONNECTION:
     SERVER_IP = "192.168.11.6"

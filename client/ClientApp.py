@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from Directory import Directory
-from CommunicateServer import CommunicateServer
+from ClientDirectory import ClientDirectory
+from ClientConnection import ClientConnection
 
 import sys
 import os
@@ -30,7 +30,7 @@ class ClientApp(tk.Frame, FileSystem):
         pass
 
     def create_widgets(self):
-        self.button = Directory(self)
+        self.button = ClientDirectory(self)
         self.button.pack()
 
     def directory_clicked(self):

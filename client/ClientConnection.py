@@ -10,7 +10,7 @@ from common.CONST import COMMAND
 from common.CONST import PACKET
 from common.CONST import CONNECTION
 
-class CommunicateServer:
+class ClientConnection:
 
 
     def communicate(self, command, data, timecount=0):
@@ -25,9 +25,10 @@ class CommunicateServer:
                         port_list.remove(port)
                         break
                 try:
-                    sock.connect(CONNECTION.SERVER_IP, port)
+                    sock.connect((CONNECTION.SERVER_IP, port))
                     sock.send(message)
                     response = sock.recv(1024)
+                    print(response)
                     break
                 except socket.error:
                     if timecount < CONNECTION.TIME_OUT:
@@ -36,12 +37,12 @@ class CommunicateServer:
                         print("error connection time out.")
         return response
 
-    def get_directory(self, path_list):
+    def get_children(self, path_list):
         path = self.create_abs_path(path_list)
         self.communicate(COMMAND.GET_DIR, path)
 
     def create_abs_path(self, path_list):
-        path = PACKET.join(path_list)
+        path = PACKET.COMMAND_SEP.join(path_list)
         return path
 
     def create_send_message(self, command, data):
