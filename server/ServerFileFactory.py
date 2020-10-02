@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(".."))
 
 from common.FileSystem import FileSystem
 
-class FileFactory:
+class ServerFileFactory:
     @staticmethod
     def file_factory(pathList):
         abs_path = os.path.join(FileSystem.SERVER_DIRECTORY_PATH, *pathList)

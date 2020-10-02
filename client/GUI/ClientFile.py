@@ -1,7 +1,7 @@
 import os
-from Button import Button
+from .Button import Button
 
-class File(Button):
+class ClientFile(Button):
 
     def click(self):
         self.master.file_clicked()

@@ -1,12 +1,13 @@
 import tkinter as tk
-
-from ClientDirectory import ClientDirectory
-from ClientConnection import ClientConnection
+from .FilePane import FilePane
 
 import sys
 import os
+sys.path.append(os.path.abspath("../.."))
 sys.path.append(os.path.abspath(".."))
 
+
+from ClientConnection import ClientConnection
 from common.FileSystem import FileSystem
 
 
@@ -18,23 +19,16 @@ class ClientApp(tk.Frame, FileSystem):
         self.configure(
             height = 500,
             width = 1000,
-            bg="red"
+            bg="white"
         )
         self.pack()
-        self.propagate(False)#子要素によってリサイズされるのを無効にする
+        self.propagate(False)
 
         self.current_path = path
         self.create_widgets()
 
-    def __create_button(self):
-        pass
-
     def create_widgets(self):
-        self.button = ClientDirectory(self)
-        self.button.pack()
+        self.create_file_pane()
 
-    def directory_clicked(self):
-        self.button.destroy()
-
-    def file_clicked(self):
-        pass
+    def create_file_pane(self):
+        self.file_pane = FilePane(self, {"_": FilePane.DIRECTORY_FLG})

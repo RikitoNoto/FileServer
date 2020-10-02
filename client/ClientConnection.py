@@ -6,11 +6,12 @@ import os
 import sys
 sys.path.append(os.path.abspath(".."))
 
+from common.FileSystem import FileSystem
 from common.CONST import COMMAND
 from common.CONST import PACKET
 from common.CONST import CONNECTION
 
-class ClientConnection:
+class ClientConnection(FileSystem):
 
 
     def communicate(self, command, data, timecount=0):
@@ -37,11 +38,7 @@ class ClientConnection:
                         print("error connection time out.")
         return response
 
-    def get_children(self, path_list):
-        path = self.create_abs_path(path_list)
-        self.communicate(COMMAND.GET_DIR, path)
-
-    def create_abs_path(self, path_list):
+    def create_packet_path(self, path_list):
         path = PACKET.COMMAND_SEP.join(path_list)
         return path
 

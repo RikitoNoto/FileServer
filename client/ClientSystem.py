@@ -1,5 +1,5 @@
 import tkinter as tk
-from ClientApp import ClientApp
+from GUI.ClientApp import ClientApp
 
 class ClientSystem:
 

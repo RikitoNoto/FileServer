@@ -1,5 +1,5 @@
 
-from FileFactory import FileFactory
+from ServerFileFactory import ServerFileFactory
 import os
 import sys
 sys.path.append(os.path.abspath(".."))
@@ -16,7 +16,7 @@ class ServerAction:
 
     def get_directory(self, data):
         path_list = self.__create_path_list(data)
-        directory = FileFactory.file_factory(path_list)
+        directory = ServerFileFactory.file_factory(path_list)
         return directory.get_children()
 
     def get_file(self, data):
