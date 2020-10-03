@@ -9,14 +9,14 @@ from common.CONST import COMMAND
 
 class ClientDirectory(Button):
 
-    def click(self):
+    def click(self, event):
         children_dict = self.get_children(self.path_list)
         self.master.directory_clicked(self.path_list, children_dict)
 
     def get_children(self, path_list):
-        print(path_list)
         path = self.create_packet_path(path_list)
         response = self.communicate(COMMAND.GET_DIR, path)
+        print(response)
         file_dir_dict = self.create_file_dir_dict(response.decode(), path_list)
         return file_dir_dict
 

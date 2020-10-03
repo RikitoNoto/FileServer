@@ -38,12 +38,11 @@ class ServerConnection(ServerAction):
                     command, data = self.__decode_message(message)
 
                     response = self.do_action(command, data)
-                    print("メッセージを受信　コマンド：{}, データ：{}".format(command, data))
                     connection.send(response.encode())
 
     def __decode_message(self, message):
         message = message.decode()
-        regrep = re.compile("(.*){}(.*)".format(PACKET.COMMAND_SEP))
+        regrep = re.compile("(.*?){}(.*)".format(PACKET.COMMAND_SEP))
         match = regrep.match(message)
         command = match.group(1)
         data = match.group(2)

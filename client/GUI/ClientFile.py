@@ -3,7 +3,7 @@ from .Button import Button
 
 class ClientFile(Button):
 
-    def click(self):
+    def click(self, event):
         self.master.file_clicked()
 
 if __name__ == "__main__":

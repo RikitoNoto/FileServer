@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(".."))
 
 from ClientConnection import ClientConnection
 
-class Button(ClientConnection, tk.Button, ABC):
+class Button(ClientConnection, tk.Label, ABC):
     BACK_GROUND_COLOR = "#FFFFFF"
 
     def __init__(self, master=None, path_list=None, cnf={}, **kw):
@@ -16,7 +16,7 @@ class Button(ClientConnection, tk.Button, ABC):
             path_list = [self.ROOT_PATH]
         ClientConnection.__init__(self, path_list)
 
-        tk.Button.__init__(self, master, cnf, **kw)
+        tk.Label.__init__(self, master, cnf, **kw)
         self.configure(
             text = self.name,
             height = 1,
@@ -25,19 +25,19 @@ class Button(ClientConnection, tk.Button, ABC):
             bg = self.BACK_GROUND_COLOR,
             bd = 0,
             fg = "black",
-            command = self.click
         )
         self.configure(**kw)
         self.set_event()
 
 
     @abstractmethod
-    def click(self):
+    def click(self, event):
         pass
 
     def set_event(self):
         self.bind("<Leave>", self.leave)
         self.bind("<Enter>", self.enter)
+        self.bind("<Double-Button-1>", self.click)
 
     def enter(self, event):
         self.config(bg="#CCE8FF")

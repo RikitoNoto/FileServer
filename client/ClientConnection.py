@@ -17,6 +17,7 @@ class ClientConnection(FileSystem):
     def communicate(self, command, data, timecount=0):
         response = CONNECTION.ERROR_CORD
         message = self.create_send_message(command, data)
+        print(message)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             port_list = [CONNECTION.MIN_PORT + i for i in range(CONNECTION.SOCKET_COUNT)]
             while port_list:
