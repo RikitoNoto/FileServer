@@ -23,5 +23,4 @@ class SevenSegment:
         canvas.create_polygon(self.LEFT_TOP, fill="#000000")
         canvas.create_polygon(self.LEFT_BOTTOM, fill="#000000")
         canvas.create_polygon(self.RIGHT_TOP, fill="#000000")
-        canvas.create_polygon(self.RIGHT_BOTTOM, fill="#000000")
-        return canvas
+        canvas.create_polygon(sel

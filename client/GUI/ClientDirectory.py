@@ -3,20 +3,26 @@ from .Button import Button
 import os
 import sys
 
+sys.path.append(os.path.abspath(".."))
+from setting.ClientSetting import ClientSetting
+
 sys.path.append("../..")
+from common.Directory import Directory
 from common.CONST import PACKET
 from common.CONST import COMMAND
 
-class ClientDirectory(Button):
+class ClientDirectory(Directory, Button):
 
     def click(self, event):
         children_dict = self.get_children(self.path_list)
-        self.master.directory_clicked(self.path_list, children_dict)
+        self.master.directory_clicked(self, children_dict)
+
+    def get_abs_directory_path_list(self):
+        return ClientSetting.ROOT_PATH_TAPLE
 
     def get_children(self, path_list):
         path = self.create_packet_path(path_list)
-        response = self.communicate(COMMAND.GET_DIR, path)
-        print(response)
+        response = self.communicate(command=COMMAND.GET_DIR, data=path)
         file_dir_dict = self.create_file_dir_dict(response.decode(), path_list)
         return file_dir_dict
 

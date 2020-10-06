@@ -1,4 +1,5 @@
 import os
+from abc import abstractmethod
 
 class FileSystem:
     SERVER_DIRECTORY_PATH = os.path.join("D:\\", "create", "python", "fileServer", "server")
@@ -23,7 +24,7 @@ class FileSystem:
         if path_list[0] != self.ROOT_PATH:
             path_list.insert(0, self.ROOT_PATH)
         self.__path_list = path_list
-        self.__abs_dir = self.__get_abs_path(os.path.join(*self.__path_list[:-1], ""))
+        self.__abs_dir = self.create_abs_path(os.path.join(*self.__path_list[:-1], ""))
         #if in path list is only root path, an error will occur when "" is noting.
         self.__name = self.__path_list[-1]
 
@@ -48,10 +49,10 @@ class FileSystem:
 
     def set_name(self, name=None, pathList=None):
         if pathList:
-            path = self.__get_abs_path(os.path.join(*pathList))
+            path = self.create_abs_path(os.path.join(*pathList))
             os.rename(self.abs_path, path)
         elif name:
-            os.rename(self.abs_path, self.__get_abs_path(os.path.join(self.__abs_dir, name)))
+            os.rename(self.abs_path, self.create_abs_path(os.path.join(self.__abs_dir, name)))
 
     def get_size(self):
         return self.__get_dir_size(self.abs_path)
@@ -66,16 +67,16 @@ class FileSystem:
         return self.__path_list
 
     def get_abs_path(self):
-        return self.__get_abs_path(self.path)
+        return self.create_abs_path(self.path)
 
-    def __get_abs_path(self, path):
+    def create_abs_path(self, path):
         """
         return the actual abstract path of the file or the directory.
         users can not look the path, so this method is private method.
         this method is used to caculate file size.
         :return: the actual abstract path
         """
-        abs_path = os.path.join(self.SERVER_DIRECTORY_PATH, path)
+        abs_path = os.path.join(self.abs_directory_path, path)
         return abs_path
 
     def __get_dir_size(self, abs_path):
@@ -89,11 +90,20 @@ class FileSystem:
 
 
     def __get_file_size(self, path):
-        abs_path = self.__get_abs_path(path)
+        abs_path = self.create_abs_path(path)
         return os.path.getsize(abs_path)
+
+    @abstractmethod
+    def get_abs_directory_path(self):
+        return os.path.join(*self.get_abs_directory_path_list())
+
+    @abstractmethod
+    def get_abs_directory_path_list(self):
+        pass
 
     name = property(get_name, set_name, None, "file name. set_name is able to over write file name.")
     size = property(get_size, None, None, "file size. size is read only")
     path = property(get_path, set_path, None, "file path. set_path is able to move file to set path.")
     path_list = property(get_path_list, None, None, "file path list. this is not abs path.")
     abs_path = property(get_abs_path, None, None, "this is an abstract path of this file os directory.")
+    abs_directory_path = property(get_abs_directory_path, None, None, "abstract path of the directory up this file or this directory.")

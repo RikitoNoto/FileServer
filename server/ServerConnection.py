@@ -20,7 +20,6 @@ class ServerConnection(ServerAction):
                 process_list.append(socket_process)
                 socket_process.start()
 
-
     def create_socket(self, sock, port):
         sock.bind((CONNECTION.SERVER_IP, port))
         sock.listen(1)
@@ -30,23 +29,25 @@ class ServerConnection(ServerAction):
 
             with connection:
                 while True:
-                    message = connection.recv(1024)
+                    message = connection.recv(PACKET.PACKET_SIZE)
+                    print(message)
                     if not message:
                         print("No message, so disconnect.")
                         break
 
-                    command, data = self.__decode_message(message)
+                    messages = self.__decode_message(message)
 
-                    response = self.do_action(command, data)
-                    connection.send(response.encode())
+                    response = self.do_action(messages[0], messages[1], messages[2])
+                    connection.send(response)
 
     def __decode_message(self, message):
         message = message.decode()
-        regrep = re.compile("(.*?){}(.*)".format(PACKET.COMMAND_SEP))
+        regrep = re.compile("(.*?){}(.*?){}(.*)".format(PACKET.COMMAND_SEP, PACKET.HEADER_SEP))
         match = regrep.match(message)
         command = match.group(1)
-        data = match.group(2)
-        return command, data
+        header = match.group(2)
+        data = match.group(3)
+        return (command, header, data)
 
 if __name__ == "__main__":
     pass

@@ -4,11 +4,11 @@ from .ClientFile import ClientFile
 
 import os
 import sys
-sys.path.append(os.path.abspath("../.."))
+sys.path.append(os.path.abspath(".."))
 
-from common.FileSystem import FileSystem
+from ClientFileConfigurator import ClientFileConfigurator
 
-class FilePane(tk.Frame):
+class FilePane(ClientFileConfigurator, tk.Frame):
     FONT_SIZE = 9
     PANE_SIZE = 9/10
     DIRECTORY_FLG = "directory"
@@ -48,9 +48,10 @@ class FilePane(tk.Frame):
             directory.destroy()
         self.directory_list = []
 
-    def directory_clicked(self, path_list, children_dict):
-        self.create_widgets(children_dict, directory_path_list=path_list)
+    def directory_clicked(self, directory, children_dict):
+        self.create_directory(directory)
+        self.create_widgets(children_dict, directory_path_list=directory.path_list)
 
-
-    def file_clicked(self):
-        pass
+    def file_clicked(self, file, response):
+        self.create_file(file)
+        file.content = response
