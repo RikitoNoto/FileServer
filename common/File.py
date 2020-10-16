@@ -8,7 +8,6 @@ class File(FileSystem):
         return content
 
     def set_content(self, content):
-        print(self.abs_path, content)
         with open(self.abs_path, mode="wb") as file:
             file.write(content)
 

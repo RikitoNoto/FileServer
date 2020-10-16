@@ -7,6 +7,8 @@ import os
 import sys
 sys.path.append(os.path.abspath(".."))
 
+from common.CommandPacket import CommandPacket
+from common.PacketMessage import PacketMessage
 from common.CONST import CONNECTION
 from common.CONST import PACKET
 
@@ -30,15 +32,17 @@ class ServerConnection(ServerAction):
             with connection:
                 while True:
                     message = connection.recv(PACKET.PACKET_SIZE)
-                    print(message)
                     if not message:
                         print("No message, so disconnect.")
                         break
+                    command_packet = CommandPacket(binary=message)
 
-                    messages = self.__decode_message(message)
+                    packet:PacketMessage = self.do_action(command_packet)
+                    connection.send(packet.value)
 
-                    response = self.do_action(messages[0], messages[1], messages[2])
-                    connection.send(response)
+    def add_header(self, message):
+        message = PACKET.HEADER_SEP + message
+        return message
 
     def __decode_message(self, message):
         message = message.decode()

@@ -9,14 +9,15 @@ class PACKET:
     PACKET_SIZE = 1024 * 1024 * 1024
     PATH_SEP = "/"
     COMMAND_SEP = " "
-    HEADER_SEP = " "
-    DIRECTORY_SEP = " "
+    HEADER_SEP = b"\n\n\n\n\n"
+    DIRECTORY_SEP = "/"
     DIRECTORY_SIGN = "D"
     FILE_SIGN = "F"
     HEADER_LENGTH = 1
+    ENCORDING = 'utf-8'
 
 class CONNECTION:
-    SERVER_IP = "192.168.12.3"
+    SERVER_IP = "192.168.12.6"
     MIN_PORT = 5500
     SOCKET_COUNT = 4
     RETRY_TIME = 1

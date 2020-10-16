@@ -11,6 +11,7 @@ from common.FileSystem import FileSystem
 class ServerFileFactory:
     @staticmethod
     def file_factory(pathList):
+        print(pathList)
         abs_path = os.path.join(FileSystem.SERVER_DIRECTORY_PATH, *pathList)
         if os.path.isfile(abs_path):
             return ServerFile(pathList)

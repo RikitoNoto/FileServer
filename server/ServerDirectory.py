@@ -12,16 +12,8 @@ class ServerDirectory(Directory):
     def get_abs_directory_path_list(self):
         return ServerSetting.ROOT_PATH_TAPLE
 
-    def get_children(self):
+    def get_children(self)->list:
         children_list = os.listdir(self.abs_path)
-        children_string = self.__convert_string_from_directory_list(children_list)
-        return children_string.encode()
+        return children_list
 
-    def __convert_string_from_directory_list(self, directory_list):
-        for i, directory in enumerate(directory_list):
-            path = os.path.join(self.abs_path, directory)
-            if os.path.isdir(path):
-               directory_list[i] = PACKET.DIRECTORY_SIGN + directory
-            elif os.path.isfile(path):
-                directory_list[i] = PACKET.FILE_SIGN + directory
-        return PACKET.DIRECTORY_SEP.join(directory_list)
+    children = property(get_children, None, None, "list of the children file or directory of this directory.")

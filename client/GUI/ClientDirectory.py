@@ -10,6 +10,7 @@ sys.path.append("../..")
 from common.Directory import Directory
 from common.CONST import PACKET
 from common.CONST import COMMAND
+from common.PacketMessage import PacketMessage
 
 class ClientDirectory(Directory, Button):
 
@@ -22,8 +23,8 @@ class ClientDirectory(Directory, Button):
 
     def get_children(self, path_list):
         path = self.create_packet_path(path_list)
-        response = self.communicate(command=COMMAND.GET_DIR, data=path)
-        file_dir_dict = self.create_file_dir_dict(response.decode(), path_list)
+        packet:PacketMessage = self.communicate(command=COMMAND.GET_DIR, data=path)
+        file_dir_dict = self.create_file_dir_dict(packet.message, path_list)
         return file_dir_dict
 
     def create_file_dir_dict(self, dir_string, dir_path_list):
