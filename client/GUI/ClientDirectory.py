@@ -22,7 +22,7 @@ class ClientDirectory(Directory, Button):
         return ClientSetting.ROOT_PATH_TAPLE
 
     def get_children(self, path_list):
-        path = self.create_packet_path(path_list)
+        path = PacketMessage.create_packet_path(path_list)
         packet:PacketMessage = self.communicate(command=COMMAND.GET_DIR, data=path)
         file_dir_dict = self.create_file_dir_dict(packet.message, path_list)
         return file_dir_dict

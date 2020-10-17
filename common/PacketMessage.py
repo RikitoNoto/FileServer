@@ -20,6 +20,16 @@ class PacketMessage:
         message_object:PacketMessage = pickle.load(byte_file)
         return message_object
 
+    @staticmethod
+    def create_packet_path(path_list:list)->str:
+        path_str = PACKET.PATH_SEP.join(path_list)
+        return path_str
+
+    @staticmethod
+    def create_path_list(path_str:str)->list:
+        path_list = path_str.split(PACKET.PATH_SEP)
+        return path_list
+
     def get_message(self):
         return self.__message
 

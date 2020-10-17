@@ -25,6 +25,7 @@ class ClientConnection(FileSystem):
                     port = port_list[index]
                     try:
                         sock.connect((CONNECTION.SERVER_IP, port))
+                        print(send_packet.message)
                         sock.send(send_packet.value)
                         binary_packet = sock.recv(PACKET.PACKET_SIZE)
                         packet:PacketMessage = PacketMessage.decode(binary=binary_packet)
@@ -39,7 +40,3 @@ class ClientConnection(FileSystem):
                     break
         print("connection finish")
         return packet
-
-    def create_packet_path(self, path_list):
-        path = PACKET.COMMAND_SEP.join(path_list)
-        return path

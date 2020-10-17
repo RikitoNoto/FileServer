@@ -17,19 +17,15 @@ class ServerAction:
         return action(packet.data)
 
     def get_directory(self, data)->PacketMessage:
-        path_list = self.__create_path_list(data)
+        path_list = PacketMessage.create_path_list(data)
         directory = ServerFileFactory.file_factory(path_list)
         childrenString:str = self.__convert_string_from_directory_list(directory)
         return PacketMessage(message=childrenString)
 
     def get_file(self, data)->PacketMessage:
-        path_list = self.__create_path_list(data)
+        path_list = PacketMessage.create_path_list(data)
         file = ServerFileFactory.file_factory(path_list)
         return PacketMessage(message=file.content)
-
-    def __create_path_list(self, path):
-        path_list = path.split(PACKET.COMMAND_SEP)
-        return path_list
 
     def __convert_string_from_directory_list(self, directory):
         children_list = directory.children

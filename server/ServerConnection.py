@@ -38,6 +38,7 @@ class ServerConnection(ServerAction):
                     packetMessage:PacketMessage = PacketMessage.decode(message)
 
                     send_message:PacketMessage = self.message_handling(packetMessage)
+                    print(len(send_message.value))
                     connection.send(send_message.value)
 
     def message_handling(self, packet:PacketMessage) -> PacketMessage:
