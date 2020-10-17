@@ -35,23 +35,16 @@ class ServerConnection(ServerAction):
                     if not message:
                         print("No message, so disconnect.")
                         break
-                    command_packet = CommandPacket(binary=message)
+                    packetMessage:PacketMessage = PacketMessage.decode(message)
 
-                    packet:PacketMessage = self.do_action(command_packet)
-                    connection.send(packet.value)
+                    send_message:PacketMessage = self.message_handling(packetMessage)
+                    connection.send(send_message.value)
 
-    def add_header(self, message):
-        message = PACKET.HEADER_SEP + message
-        return message
+    def message_handling(self, packet:PacketMessage) -> PacketMessage:
+        if packet.MESSAGE_TYPE == CommandPacket.MESSAGE_TYPE:
+            response = self.do_action(packet)
 
-    def __decode_message(self, message):
-        message = message.decode()
-        regrep = re.compile("(.*?){}(.*?){}(.*)".format(PACKET.COMMAND_SEP, PACKET.HEADER_SEP))
-        match = regrep.match(message)
-        command = match.group(1)
-        header = match.group(2)
-        data = match.group(3)
-        return (command, header, data)
+        return response
 
 if __name__ == "__main__":
     pass

@@ -12,17 +12,17 @@ from common.CONST import PACKET
 class ServerAction:
     COMMAND_METHOD = {COMMAND.GET_DIR: "get_directory", COMMAND.GET_FILE: "get_file"}
 
-    def do_action(self, packet:CommandPacket):
+    def do_action(self, packet:CommandPacket)-> PacketMessage:
         action = eval("self.{}".format(self.COMMAND_METHOD[packet.command]))
         return action(packet.data)
 
-    def get_directory(self, data):
+    def get_directory(self, data)->PacketMessage:
         path_list = self.__create_path_list(data)
         directory = ServerFileFactory.file_factory(path_list)
         childrenString:str = self.__convert_string_from_directory_list(directory)
         return PacketMessage(message=childrenString)
 
-    def get_file(self, data):
+    def get_file(self, data)->PacketMessage:
         path_list = self.__create_path_list(data)
         file = ServerFileFactory.file_factory(path_list)
         return PacketMessage(message=file.content)

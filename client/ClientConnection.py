@@ -27,8 +27,7 @@ class ClientConnection(FileSystem):
                         sock.connect((CONNECTION.SERVER_IP, port))
                         sock.send(send_packet.value)
                         binary_packet = sock.recv(PACKET.PACKET_SIZE)
-                        print(binary_packet)
-                        packet = PacketMessage(binary=binary_packet)
+                        packet:PacketMessage = PacketMessage.decode(binary=binary_packet)
                         break
                     except socket.error:
                         if timecount < CONNECTION.TIME_OUT:

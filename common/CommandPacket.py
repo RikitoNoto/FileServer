@@ -7,15 +7,16 @@ sys.path.append(os.path.abspath(".."))
 from common.CONST import PACKET
 
 class CommandPacket(PacketMessage):
+    MESSAGE_TYPE = "COMMAND"
 
-    def __init__(self, command=None, data=None, header=None, binary=None):
+    def __init__(self, command=None, data=None, header=None):
         if command and data:
             self.__command = command
             self.__data = data
             message = self.create_message(command, data)
-            PacketMessage.__init__(self, message=message, header=header, binary=binary)
+            PacketMessage.__init__(self, message=message, header=header)
         else:
-            PacketMessage.__init__(self, binary=binary)
+            PacketMessage.__init__(self)
             self.__command, self.__data = self.separate_message(self.message)
 
     @staticmethod

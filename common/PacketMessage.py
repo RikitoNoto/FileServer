@@ -5,26 +5,20 @@ from .CONST import PACKET
 
 
 class PacketMessage:
+    MESSAGE_TYPE = "DEFAULT"
 
-    def __init__(self, message:str = None, header:str = None, binary:bytes = None):
-        if message and binary:
-            raise ValueError("can not set message and binary togather.")
-        elif not message and not binary:
-            raise ValueError("set which one of message or binary.")
+    def __init__(self, message:str = None, header:str = None):
+        if not message :
+            raise ValueError("set message or header.")
         elif message:
             self.__message:str = message
             self.__header:str = header
-        elif binary:
-            self.header, self.message = self.decode(binary)
-
-
 
     @staticmethod
-    def decode(binary:bytes=b"") -> tuple:
-        message_object:PacketMessage = pickle.load(binary)
-        header = message_object.header
-        message = message_object.message
-        return header, message
+    def decode(binary:bytes=b""):
+        byte_file = BytesIO(binary)
+        message_object:PacketMessage = pickle.load(byte_file)
+        return message_object
 
     def get_message(self):
         return self.__message
