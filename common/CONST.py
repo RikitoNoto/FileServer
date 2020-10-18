@@ -9,12 +9,12 @@ class PACKET:
     PACKET_SIZE = 1024 * 1024 * 1024
     PATH_SEP = "/"
     COMMAND_SEP = " "
-    HEADER_SEP = b"\n\n\n\n\n"
     DIRECTORY_SEP = "/"
     DIRECTORY_SIGN = "D"
     FILE_SIGN = "F"
     HEADER_LENGTH = 1
     ENCORDING = 'utf-8'
+    END_OF_MESSAGE = b"\x00\x00\x00\x00\x00\x00"
 
 class CONNECTION:
     SERVER_IP = "192.168.12.6"

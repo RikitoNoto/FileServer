@@ -16,9 +16,17 @@ class PacketMessage:
 
     @staticmethod
     def decode(binary:bytes=b""):
+        binary = binary[:-len(PACKET.END_OF_MESSAGE)]
         byte_file = BytesIO(binary)
         message_object:PacketMessage = pickle.load(byte_file)
         return message_object
+
+    @staticmethod
+    def is_response_end(binary_message:bytes)->bool:
+        end_of_message = binary_message[-len(PACKET.END_OF_MESSAGE):]
+        if end_of_message == PACKET.END_OF_MESSAGE:
+            return True
+        return False
 
     @staticmethod
     def create_packet_path(path_list:list)->str:
@@ -51,7 +59,8 @@ class PacketMessage:
     def get_value(self):
         file = BytesIO()
         pickle.dump(self, file, protocol=pickle.HIGHEST_PROTOCOL)
-        return file.getvalue()
+        message = file.getvalue() + PACKET.END_OF_MESSAGE
+        return message
 
     message = property(get_message, set_message, del_message, "content to communicate server or client.")
     header = property(get_header, set_header, del_header, "information to express this packet.")

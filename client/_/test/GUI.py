@@ -1,1 +1,22 @@
-b'import tkinter as tk\r\nimport SevenSegment\r\n\r\nroot = tk.Tk()\r\nroot.title("FileNameChanger")\r\nroot.geometry("500x500")\r\n\r\n# frame = tk.Frame(root, background = "#FF0000", width = 200, height = 200)\r\n# label = tk.Label(frame, text = "test")\r\n# text_box = tk.Entry(frame)\r\n# list_box = tk.Listbox(frame)\r\n#\r\n# label.pack()\r\n# text_box.pack()\r\n# list_box.pack()\r\n#\r\n# frame.place(x = 300, y = 100)\r\n\r\na = SevenSegment.SevenSegment(root)\r\na.display().pack()\r\n\r\nroot.mainloop()'
+import tkinter as tk
+import SevenSegment
+
+root = tk.Tk()
+root.title("FileNameChanger")
+root.geometry("500x500")
+
+# frame = tk.Frame(root, background = "#FF0000", width = 200, height = 200)
+# label = tk.Label(frame, text = "test")
+# text_box = tk.Entry(frame)
+# list_box = tk.Listbox(frame)
+#
+# label.pack()
+# text_box.pack()
+# list_box.pack()
+#
+# frame.place(x = 300, y = 100)
+
+a = SevenSegment.SevenSegment(root)
+a.display().pack()
+
+root.mainloop()
