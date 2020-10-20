@@ -1,3 +1,4 @@
+import tkinter as tk
 from ServerConnection import ServerConnection
 
 class ServerSystem:
