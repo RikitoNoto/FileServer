@@ -24,7 +24,10 @@ class ServerApp(tk.Frame):
             self.current_frame.pack_forget()
         except AttributeError:
             pass
-        self.current_frame:tk.Frame = OptionFrame(self, height=self["height"], width=self["width"], background="black")#self["background"])
+        self.current_frame:tk.Frame = OptionFrame(self,
+                                                  height=self["height"],
+                                                  width=self["width"],
+                                                  background="black")#self["background"])
         self.current_frame.pack()
 
     def change_main_frame(self):
@@ -32,7 +35,10 @@ class ServerApp(tk.Frame):
             self.current_frame.pack_forget()
         except AttributeError:
             pass
-        self.current_frame:tk.Frame = MainFrame(self, background=self["background"])
+        self.current_frame:tk.Frame = MainFrame(self,
+                                                background=self["background"],
+                                                height=self["height"],
+                                                width=self["width"]/2)
         self.current_frame.pack()
 
     def test(self):

@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.append(os.path.abspath(".."))
 
-from common.IconButton import IconButton
+from common.UI.IconButton import IconButton
 
 class PowerButton(IconButton):
     POWER_DOWN_IMAGE = "../../resources/images/power_button_down.png"

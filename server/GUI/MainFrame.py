@@ -6,6 +6,7 @@ class MainFrame(tk.Frame):
 
     def __init__(self, master=None, **kwargs):
         super().__init__(master, kwargs)
+        self.propagate(False)
         self.create_widgets()
 
     def create_widgets(self):
