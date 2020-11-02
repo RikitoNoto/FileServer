@@ -6,8 +6,8 @@ sys.path.append(os.path.abspath(".."))
 from common.UI.IconButton import IconButton
 
 class OptionButton(IconButton):
-    POWER_DOWN_IMAGE = "../../resources/images/setting_gear.png"
-    POWER_UP_IMAGE = "../../resources/images/setting_gear.png"
+    POWER_DOWN_IMAGE = "../resources/images/setting_gear.png"
+    POWER_UP_IMAGE = "../resources/images/setting_gear.png"
     HEIGHT_IMAGE_BIAS = 0
     WIDTH_IMAGE_BIAS = 0
 
@@ -16,5 +16,5 @@ class OptionButton(IconButton):
         self.configure(activebackground=None)
 
 
-    def command_method(self):
+    def command_method(self, state):
         self.master.option_button_clicked()

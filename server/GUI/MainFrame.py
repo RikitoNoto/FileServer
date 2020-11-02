@@ -1,6 +1,6 @@
 import tkinter as tk
-from PowerButton import PowerButton
-from OptionButton import OptionButton
+from .PowerButton import PowerButton
+from .OptionButton import OptionButton
 
 class MainFrame(tk.Frame):
 
@@ -17,3 +17,8 @@ class MainFrame(tk.Frame):
 
     def option_button_clicked(self):
         self.master.change_option_frame()
+
+
+
+    def power_button_clicked(self, state):
+        self.master.power_button_event(state)

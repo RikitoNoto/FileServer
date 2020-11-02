@@ -1,6 +1,8 @@
 import socket
 import re
 from multiprocessing import Process
+from multiprocessing import Value
+from threading import Thread
 from ServerAction import ServerAction
 
 import os
@@ -15,37 +17,51 @@ from common.CONST import PACKET
 class ServerConnection(ServerAction):
 
     def open_port(self):
-        process_list = []
-        for i in range(CONNECTION.SOCKET_COUNT):
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                socket_process = Process(target=self.create_socket, args=(sock, CONNECTION.MIN_PORT + i))
-                process_list.append(socket_process)
-                socket_process.start()
+        self.server_state = Value("b", 1)
+        self.__process:Process  = Process(target=self.create_socket, args=(CONNECTION.MIN_PORT, self.server_state), daemon=True)
 
-    def create_socket(self, sock, port):
-        sock.bind((CONNECTION.SERVER_IP, port))
-        sock.listen(1)
+        self.process.start()
 
-        while True:
-            connection, address = sock.accept()
+    def close_port(self):
+        self.server_state.value = 0
+        for _ in range(CONNECTION.SOCKET_COUNT+1):
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect((CONNECTION.SERVER_IP, CONNECTION.MIN_PORT))
+            sock.close()
+        self.process.join()
+        del self.process
 
-            with connection:
-                while True:
-                    message = connection.recv(PACKET.PACKET_SIZE)
-                    if not message:
-                        print("No message, so disconnect.")
-                        break
-                    packetMessage:PacketMessage = PacketMessage.decode(message)
+    def create_socket(self, port, state:Value):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock :
+            sock.bind((CONNECTION.SERVER_IP, port))
+            sock.listen(CONNECTION.SOCKET_COUNT)
+            while state.value:
+                connection, address = sock.accept()
+                with connection:
+                    while True:
+                        message = connection.recv(PACKET.PACKET_SIZE)
+                        if not message:
+                            print("No message, so disconnect.")
+                            break
+                        packetMessage:PacketMessage = PacketMessage.decode(message)
 
-                    send_message:PacketMessage = self.message_handling(packetMessage)
-                    print(len(send_message.value))
-                    connection.send(send_message.value)
+                        send_message:PacketMessage = self.message_handling(packetMessage)
+                        connection.send(send_message.value)
+
 
     def message_handling(self, packet:PacketMessage) -> PacketMessage:
         if packet.MESSAGE_TYPE == CommandPacket.MESSAGE_TYPE:
             response = self.do_action(packet)
 
         return response
+
+    def get_process(self)->Process:
+        return self.__process
+
+    def del_process(self):
+        self.__process.close()
+
+    process = property(get_process, None, del_process, "the process that is the file server.")
 
 if __name__ == "__main__":
     pass

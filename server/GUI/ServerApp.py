@@ -1,10 +1,12 @@
 import tkinter as tk
-from MainFrame import MainFrame
-from OptionFrame import OptionFrame
+from .MainFrame import MainFrame
+from .OptionFrame import OptionFrame
+from .PowerButton import PowerButton
 
 class ServerApp(tk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, system=None, master=None):
         super().__init__(master)
+        self.system = system
         self.master = master
         self.configure(
             height = 500,
@@ -41,9 +43,12 @@ class ServerApp(tk.Frame):
                                                 width=self["width"]/2)
         self.current_frame.pack()
 
-    def test(self):
-        self.img = tk.PhotoImage(file="../../resources/images/power_button_up.png").subsample(3)
-        self.power_button.configure(image=self.img)
+    def power_button_event(self, state):
+        if state == PowerButton.UP_STATE:
+            self.system.server_start()
+        else:
+            self.system.server_close()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
