@@ -10,7 +10,7 @@ from common.CONST import PACKET
 class ServerDirectory(Directory):
 
     def get_abs_directory_path_list(self):
-        return ServerSetting.ROOT_PATH_TAPLE
+        return ServerSetting.read("PATH", "root", is_tuple=True)
 
     def get_children(self)->list:
         children_list = os.listdir(self.abs_path)

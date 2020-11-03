@@ -17,7 +17,7 @@ from common.PacketMessage import PacketMessage
 class ClientFile(File, Button):
 
     def get_abs_directory_path_list(self):
-        return ClientSetting.ROOT_PATH_TAPLE
+        return ClientSetting.read("PATH", "root", is_tuple=True)
 
     def click(self, event):
         if tkmsg.askokcancel(title="Confirmation write", message="Do over write this file."):

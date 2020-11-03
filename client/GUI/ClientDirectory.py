@@ -19,7 +19,7 @@ class ClientDirectory(Directory, Button):
         self.master.directory_clicked(self, children_dict)
 
     def get_abs_directory_path_list(self):
-        return ClientSetting.ROOT_PATH_TAPLE
+        return ClientSetting.read("PATH", "root", is_tuple=True)
 
     def get_children(self, path_list):
         path = PacketMessage.create_packet_path(path_list)

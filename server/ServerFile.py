@@ -11,5 +11,5 @@ from common.File import File
 class ServerFile(File):
 
     def get_abs_directory_path_list(self):
-        return ServerSetting.ROOT_PATH_TAPLE
+        return ServerSetting.read("PATH", "root", is_tuple=True)
 
