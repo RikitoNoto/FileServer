@@ -25,7 +25,6 @@ class ServerAction:
     def get_file(self, data)->PacketMessage:
         path_list = PacketMessage.create_path_list(data)
         file = ServerFileFactory.file_factory(path_list)
-        print(file.content)
         return PacketMessage(message=file.content)
 
     def __convert_string_from_directory_list(self, directory):

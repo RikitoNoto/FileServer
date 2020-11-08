@@ -8,11 +8,8 @@ class PacketMessage:
     MESSAGE_TYPE = "DEFAULT"
 
     def __init__(self, message:str = None, header:str = None):
-        if not message :
-            raise ValueError("set message or header.")
-        elif message:
-            self.__message:str = message
-            self.__header:str = header
+        self.__message:str = message
+        self.__header:str = header
 
     @staticmethod
     def decode(binary:bytes=b""):

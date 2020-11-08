@@ -1,4 +1,5 @@
-import configparser
+from configparser import ConfigParser
+import os
 
 class Setting:
     """
@@ -14,12 +15,19 @@ class Setting:
     the tuple args is the sections of a setting.
     the anytype arg is value of write.
     """
-    CONFIG_FILE_PATH = "setting/setting.ini"
-    TUPLE_SEP = ","
+    FILE_NAME = "setting.ini"
+    CONFIG_FILE_PATH = os.path.join("setting", FILE_NAME)
+    TUPLE_SEP = "/"
+    SECTION_NAME_FLG = None
+    SECTION_EXPLAIN_NAME = "explain"
 
     @classmethod
     def config_load(cls):
-        cls.config:configparser.ConfigParser = configparser.ConfigParser()
+        cls.common_config:ConfigParser = ConfigParser()
+        dir_name = os.path.dirname(__file__)
+        path = os.path.join(dir_name, cls.FILE_NAME)
+        cls.common_config.read(path)
+        cls.config:ConfigParser = ConfigParser()
         cls.config.read(cls.CONFIG_FILE_PATH)
 
     @classmethod
@@ -30,6 +38,14 @@ class Setting:
     def config_save(cls):
         with open(cls.CONFIG_FILE_PATH, mode="w") as config_file:
             cls.config.write(config_file)
+
+    @classmethod
+    def common_config_dict(cls):
+        try:
+            cls.common_config
+        except AttributeError:
+            cls.config_load()
+        return cls.config_iterater(cls.common_config)
 
     @classmethod
     def read(cls, section, key, is_tuple=False, default=None):
@@ -66,6 +82,14 @@ class Setting:
             cls.config[section][key] = cls.TUPLE_SEP.join(value)
         else:
             cls.config[section][key] = value
+
+    @classmethod
+    def config_iterater(cls, config):
+        for section, items in config.items():
+            yield (cls.SECTION_NAME_FLG, (section, items.pop(cls.SECTION_EXPLAIN_NAME,"")))
+            for name, data in items.items():
+                yield (name, data)
+
 
 if __name__ == "__main__":
     print(Setting.read("PATH", "root"))
